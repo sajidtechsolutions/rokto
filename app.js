@@ -1,6 +1,3 @@
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
-import { getDatabase, ref, set, push, onValue } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-database.js";
-
 /* ==========================================================================
    BANGLADESH GEOGRAPHY DATASET (জেলা ও উপজেলা সমূহ)
    ========================================================================== */
@@ -16,89 +13,20 @@ const BD_GEOGRAPHY = {
   "কুমিল্লা": ["কুমিল্লা সদর", "লাকসাম", "চৌদ্দগ্রাম", "দেবিদ্বার", "দাউদকান্দি", "বরুড়া", "বুড়িচং", "চান্দিনা", "হোমনা", "মুরাদনগর"],
   "গাজীপুর": ["গাজীপুর সদর", "কালিয়াকৈর", "কালীগঞ্জ", "কাপাসিয়া", "শ্রীপুর"],
   "নারায়ণগঞ্জ": ["নারায়ণগঞ্জ সদর", "আড়াইহাজার", "বন্দর", "রূপগঞ্জ", "সোনারগাঁও"],
-  "বগুড়া": ["বগুড়া সদর", "আদমদীঘি", "ধুনট", "দুপচাঁচিয়া", "গাবতলী", "কাহালু", "নন্দীগ্রাম", "সারিয়াকান্দি", "শেরপুর", "শিবগঞ্জ", "শাজাহানপুর"],
+  "বগুড়া": ["বগুড়া সদর", "আدمদীঘি", "ধুনট", "দুপচাঁচিয়া", "গাবতলী", "কাহালু", "নন্দীগ্রাম", "সারিয়াকান্দি", "শেরপুর", "শিবগঞ্জ", "শাজাহানপুর"],
   "দিনাজপুর": ["দিনাজপুর সদর", "বীরগঞ্জ", "কাহারোল", "বোচাগঞ্জ", "বিরল", "চিরিরবন্দর", "পার্বতীপুর", "ফুলবাড়ী", "নবাবগঞ্জ", "বিরামপুর"],
   "ফেনী": ["ফেনী সদর", "দাগনভূঞা", "ছাগলনাইয়া", "পরশুরাম", "সোনাগাজী", "ফুলগাজী"],
   "কক্সবাজার": ["কক্সবাজার সদর", "চকোরিয়া", "মহেশখালী", "টেকনাফ", "উখিয়া", "রামু", "কুতুবদিয়া", "পেকুয়া"],
   "নোয়াখালী": ["নোয়াখালী সদর", "বেগমগঞ্জ", "চাটখিল", "কোম্পানীগঞ্জ", "হাতিয়া", "সেনবাগ", "সোনাইমুড়ী", "সুবর্ণচর", "কবিরহাট"],
   "টাঙ্গাইল": ["টাঙ্গাইল সদর", "বাসাইল", "ভূঞাপুর", "দেলদুয়ার", "ঘাটাইল", "গোপালপুর", "কালিহাতী", "মধুপুর", "মির্জাপুর", "নাগরপুর", "সখিপুর"],
-  "যশোর": ["যশোর সদর", "অভয়নগর", "বাঘারপাড়া", "চৌগাছা", "ঝিকরগাছা", "কেশবপুর", "মণিরামপুর", "শার্শা"]
+  "যশোর": ["যশোর সদর", "অভয়নগর", "বাঘারপাড়া", "চৌগাছা", "ঝিকরগাছা", "কেশবপুর", "مণিরামপুর", "শার্শা"]
 };
 
 /* ==========================================================================
-   INITIAL MOCK DATA (রক্তের অনুরোধ ও ডোনারদের তালিকা - ডাটাবেজ ফালব্যাক)
+   INITIAL MOCK DATA (রিমুভ করা হয়েছে - ডাটাবেজ এখন সম্পূর্ণ খালি থেকে শুরু হবে)
    ========================================================================== */
-const initialRequests = [
-  {
-    patientName: "Saidul Haque",
-    bloodGroup: "B+",
-    units: 1,
-    needDate: "2026-07-15",
-    district: "বগুড়া",
-    upazila: "বগুড়া সদর",
-    hospital: "Zia Medical",
-    contact: "01712345678",
-    reason: "জরুরি অপারেশন",
-    urgency: true,
-    createdAt: Date.now() - 3600000 * 2
-  },
-  {
-    patientName: "নাসরিন আক্তার",
-    bloodGroup: "O+",
-    units: 2,
-    needDate: "2026-07-12",
-    district: "ঢাকা",
-    upazila: "মিরপুর",
-    hospital: "মিরপুর হার্ট ফাউন্ডেশন",
-    contact: "01711223344",
-    reason: "ওপেন হার্ট সার্জারি",
-    urgency: true,
-    createdAt: Date.now() - 3600000 * 5
-  },
-  {
-    patientName: "সালমা বেগম",
-    bloodGroup: "A+",
-    units: 1,
-    needDate: "2026-07-09",
-    district: "ঢাকা",
-    upazila: "সাভার",
-    hospital: "এনাম মেডিকেল কলেজ",
-    contact: "01822334455",
-    reason: "ডেলিভারি",
-    urgency: false,
-    createdAt: Date.now() - 3600000 * 12
-  }
-];
-
-const initialDonors = [
-  {
-    name: "সজিবুল ইসলাম",
-    bloodGroup: "B+",
-    district: "ঢাকা",
-    upazila: "মিরপুর",
-    contact: "01700112233",
-    lastDonationDate: "2026-04-10",
-    available: true
-  },
-  {
-    name: "আরিফ রহমান",
-    bloodGroup: "A+",
-    district: "ঢাকা",
-    upazila: "মিরপুর",
-    contact: "01800223344",
-    lastDonationDate: "2026-01-15",
-    available: true
-  },
-  {
-    name: "কামরুল হাসান",
-    bloodGroup: "O+",
-    district: "ঢাকা",
-    upazila: "সাভার",
-    contact: "01900334455",
-    lastDonationDate: "2025-11-20",
-    available: true
-  }
-];
+const initialRequests = [];
+const initialDonors = [];
 
 const mockNames = ["রহিম উদ্দিন", "মোঃ তারেক", "জেসমিন আক্তার", "সাজিদুর রহমান", "তানজিলা হাসান", "শরিফুল ইসলাম", "মনিরা বেগম"];
 const mockReasons = ["ডেলিভারি", "মেজর সার্জারি", "থ্যালাসেমিয়া", "অপারেশন", "ডায়ালাইসিস"];
@@ -109,7 +37,7 @@ const mockHospitals = ["জেনারেল হাসপাতাল", "আল
    ========================================================================== */
 const state = {
   currentUserLocation: {
-    district: "بগুড়া",
+    district: "বগুড়া",
     upazila: "বগুড়া সদর"
   },
   requests: [],
@@ -135,9 +63,9 @@ const firebaseConfig = {
   measurementId: "G-12PGEM3FL1"
 };
 
-// Initialize Firebase
-const firebaseApp = initializeApp(firebaseConfig);
-const db = getDatabase(firebaseApp);
+// Initialize Firebase using global Compat namespace
+firebase.initializeApp(firebaseConfig);
+const db = firebase.database();
 
 /* ==========================================================================
    LOCAL STATE PERSISTENCE (SETTINGS ONLY)
@@ -147,7 +75,7 @@ function loadLocalSettings() {
   if (storedLocation) {
     state.currentUserLocation = JSON.parse(storedLocation);
   } else {
-    // Default location as shown in user screenshot (Bogura Sadar, Bogura)
+    // Default location (Bogura Sadar, Bogura)
     state.currentUserLocation = {
       district: "বগুড়া",
       upazila: "বগুড়া সদর"
@@ -438,11 +366,11 @@ function triggerCallDrawer(name, phone) {
 }
 
 /* ==========================================================================
-   FIREBASE DATA SYNC LISTENERS
+   FIREBASE DATA SYNC LISTENERS (Compat Syntax)
    ========================================================================== */
 function setupFirebaseSync() {
   // Listen to active blood requests
-  onValue(ref(db, "requests"), (snapshot) => {
+  db.ref("requests").on("value", (snapshot) => {
     const data = snapshot.val();
     if (data) {
       state.requests = Object.keys(data).map(key => ({
@@ -450,18 +378,16 @@ function setupFirebaseSync() {
         ...data[key]
       }));
     } else {
-      // Empty database fallback - write default initial requests
-      state.requests = [...initialRequests];
-      initialRequests.forEach(req => {
-        const newRef = push(ref(db, "requests"));
-        set(newRef, req);
-      });
+      state.requests = [];
     }
     renderFeed();
+  }, (error) => {
+    console.error("Firebase read error on requests:", error);
+    alert("রক্তের অনুরোধ লোড করতে ব্যর্থ হয়েছে!\n\nত্রুটির বিবরণ: " + error.message + "\n\nঅনুগ্রহ করে নিশ্চিত করুন যে আপনার Firebase Realtime Database Rules-এ read এবং write পারমিশন true করা আছে।");
   });
 
   // Listen to registered donors
-  onValue(ref(db, "donors"), (snapshot) => {
+  db.ref("donors").on("value", (snapshot) => {
     const data = snapshot.val();
     if (data) {
       state.donors = Object.keys(data).map(key => ({
@@ -469,14 +395,11 @@ function setupFirebaseSync() {
         ...data[key]
       }));
     } else {
-      // Empty database fallback - write default initial donors
-      state.donors = [...initialDonors];
-      initialDonors.forEach(donor => {
-        const newRef = push(ref(db, "donors"));
-        set(newRef, donor);
-      });
+      state.donors = [];
     }
     renderFeed();
+  }, (error) => {
+    console.error("Firebase read error on donors:", error);
   });
 }
 
@@ -520,26 +443,28 @@ function setupFormSubmissions() {
       createdAt: Date.now()
     };
     
-    const requestsRef = ref(db, "requests");
-    const newRequestRef = push(requestsRef);
-    
-    set(newRequestRef, newReq).then(() => {
-      confetti({
-        particleCount: 50,
-        spread: 40,
-        origin: { y: 0.8 },
-        colors: ['#e53935', '#ffffff']
+    db.ref("requests").push().set(newReq)
+      .then(() => {
+        confetti({
+          particleCount: 50,
+          spread: 40,
+          origin: { y: 0.8 },
+          colors: ['#e53935', '#ffffff']
+        });
+        
+        closeAllDrawers();
+        postForm.reset();
+        populateUpazilas("", document.getElementById("post-upazila"), "প্রথমে জেলা");
+        
+        document.getElementById("view-requests-toggle").click();
+        state.filters.bloodGroup = newReq.bloodGroup;
+        updateFilterGroupUI();
+        showSuccessToast("আপনার রক্তের অনুরোধটি পোস্ট করা হয়েছে!");
+      })
+      .catch((error) => {
+        console.error("Firebase write error on request post:", error);
+        alert("ডাটাবেজে রক্তের অনুরোধ পোস্ট করতে ব্যর্থ হয়েছে!\n\nত্রুটির বিবরণ: " + error.message + "\n\nঅনুগ্রহ করে Firebase Console -> Realtime Database -> Rules ট্যাবে গিয়ে Rules পরিবর্তন করে read ও write পারমিশন true করে দিন:\n\n{\n  \"rules\": {\n    \".read\": true,\n    \".write\": true\n  }\n}");
       });
-      
-      closeAllDrawers();
-      postForm.reset();
-      populateUpazilas("", document.getElementById("post-upazila"), "প্রথমে জেলা");
-      
-      document.getElementById("view-requests-toggle").click();
-      state.filters.bloodGroup = newReq.bloodGroup;
-      updateFilterGroupUI();
-      showSuccessToast("আপনার রক্তের অনুরোধটি পোস্ট করা হয়েছে!");
-    });
   });
   
   // 3. REGISTER AS A DONOR (saves directly to Firebase)
@@ -557,30 +482,32 @@ function setupFormSubmissions() {
       available: document.getElementById("reg-available").checked
     };
     
-    const donorsRef = ref(db, "donors");
-    const newDonorRef = push(donorsRef);
-    
-    set(newDonorRef, newDonor).then(() => {
-      state.currentUserLocation = { district: newDonor.district, upazila: newDonor.upazila };
-      document.getElementById("header-location-txt").textContent = `${newDonor.upazila}, ${newDonor.district}`;
-      saveLocalSettings();
-      
-      confetti({
-        particleCount: 100,
-        spread: 60,
-        origin: { y: 0.6 },
-        colors: ['#388e3c', '#ffffff']
+    db.ref("donors").push().set(newDonor)
+      .then(() => {
+        state.currentUserLocation = { district: newDonor.district, upazila: newDonor.upazila };
+        document.getElementById("header-location-txt").textContent = `${newDonor.upazila}, ${newDonor.district}`;
+        saveLocalSettings();
+        
+        confetti({
+          particleCount: 100,
+          spread: 60,
+          origin: { y: 0.6 },
+          colors: ['#388e3c', '#ffffff']
+        });
+        
+        closeAllDrawers();
+        regForm.reset();
+        populateUpazilas("", document.getElementById("reg-upazila"), "প্রথমে জেলা");
+        
+        document.getElementById("view-donors-toggle").click();
+        state.filters.bloodGroup = newDonor.bloodGroup;
+        updateFilterGroupUI();
+        showSuccessToast("রক্তদাতা তালিকায় যুক্ত হওয়ার জন্য ধন্যবাদ!");
+      })
+      .catch((error) => {
+        console.error("Firebase write error on donor registration:", error);
+        alert("ডাটাবেজে রক্তদাতা তথ্য যোগ করতে ব্যর্থ হয়েছে!\n\nত্রুটির বিবরণ: " + error.message + "\n\nঅনুগ্রহ করে Firebase Console -> Realtime Database -> Rules ট্যাবে গিয়ে Rules পরিবর্তন করে read ও write পারমিশন true করে দিন:\n\n{\n  \"rules\": {\n    \".read\": true,\n    \".write\": true\n  }\n}");
       });
-      
-      closeAllDrawers();
-      regForm.reset();
-      populateUpazilas("", document.getElementById("reg-upazila"), "প্রথমে জেলা");
-      
-      document.getElementById("view-donors-toggle").click();
-      state.filters.bloodGroup = newDonor.bloodGroup;
-      updateFilterGroupUI();
-      showSuccessToast("রক্তদাতা তালিকায় যুক্ত হওয়ার জন্য ধন্যবাদ!");
-    });
   });
 }
 
@@ -655,32 +582,32 @@ function triggerSimulatedPost() {
     createdAt: Date.now()
   };
   
-  // Push directly to Firebase Realtime Database
-  const requestsRef = ref(db, "requests");
-  const newRequestRef = push(requestsRef);
-  
-  set(newRequestRef, newReq).then(() => {
-    const toast = document.getElementById("global-toast");
-    const textEl = document.getElementById("toast-text");
-    const viewBtn = document.getElementById("toast-view-btn");
-    
-    textEl.textContent = `${randomUpazila} থেকে ${randomGroup} রক্ত প্রয়োজন! (${randomName})`;
-    toast.classList.remove("hidden-element");
-    
-    const autoDismiss = setTimeout(() => {
-      toast.classList.add("hidden-element");
-    }, 6000);
-    
-    viewBtn.onclick = () => {
-      clearTimeout(autoDismiss);
-      toast.classList.add("hidden-element");
+  db.ref("requests").push().set(newReq)
+    .then(() => {
+      const toast = document.getElementById("global-toast");
+      const textEl = document.getElementById("toast-text");
+      const viewBtn = document.getElementById("toast-view-btn");
       
-      document.getElementById("view-requests-toggle").click();
-      state.filters.bloodGroup = randomGroup;
-      updateFilterGroupUI();
-      renderFeed();
-    };
-  });
+      textEl.textContent = `${randomUpazila} থেকে ${randomGroup} রক্ত প্রয়োজন! (${randomName})`;
+      toast.classList.remove("hidden-element");
+      
+      const autoDismiss = setTimeout(() => {
+        toast.classList.add("hidden-element");
+      }, 6000);
+      
+      viewBtn.onclick = () => {
+        clearTimeout(autoDismiss);
+        toast.classList.add("hidden-element");
+        
+        document.getElementById("view-requests-toggle").click();
+        state.filters.bloodGroup = randomGroup;
+        updateFilterGroupUI();
+        renderFeed();
+      };
+    })
+    .catch((error) => {
+      console.error("Firebase write error on simulated request post:", error);
+    });
 }
 
 function showSuccessToast(message) {
