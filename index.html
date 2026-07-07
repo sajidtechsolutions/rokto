@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>রক্তদান — রক্ত খুঁজুন ও জীবন বাঁচান</title>
+  <meta name="description" content="রক্তদান মোবাইল অ্যাপ। জেলা ও উপজেলা ভিত্তিক দ্রুত রক্তদাতা ও রক্তগ্রহীতা মেলবন্ধন।">
+  
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Outfit:wght@500;600;700;800&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Canvas Confetti CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+</head>
+<body class="dark-theme">
+
+  <!-- Droplets background particles -->
+  <canvas id="particles-canvas"></canvas>
+
+  <!-- Mobile App Wrapper -->
+  <div class="mobile-app-wrapper">
+
+    <!-- App Header -->
+    <header class="app-header glass-panel">
+      <div class="header-left">
+        <span class="logo-drop">🩸</span>
+        <span class="logo-text">রক্ত<span class="accent">দান</span></span>
+      </div>
+      
+      <!-- Current simulated location pill -->
+      <button id="location-pill-btn" class="location-pill">
+        <i data-lucide="map-pin"></i>
+        <span id="header-location-txt">মিরপুর, ঢাকা</span>
+        <i data-lucide="chevron-down" size="14"></i>
+      </button>
+
+      <button id="theme-toggle-btn" class="theme-btn">
+        <i data-lucide="sun" id="theme-icon"></i>
+      </button>
+    </header>
+
+    <!-- Global Floating Action Drawer for incoming notifications -->
+    <div class="quick-notification-toast hidden-element" id="global-toast">
+      <div class="toast-indicator"></div>
+      <div class="toast-content" id="toast-text">সাভার থেকে O+ রক্ত প্রয়োজন!</div>
+      <button id="toast-view-btn" class="toast-btn">দেখুন</button>
+    </div>
+
+    <!-- Main Mobile Content Area -->
+    <main class="app-main-content">
+      
+      <!-- QUICK ACTION HERO CARD (UPLOAD OR REGISTER) -->
+      <div class="hero-actions-container">
+        <button id="action-post-need-btn" class="mobile-action-card post-card">
+          <div class="card-icon"><i data-lucide="plus-circle"></i></div>
+          <div class="card-texts">
+            <h3>রক্ত প্রয়োজন</h3>
+            <p>জরুরি পোস্ট আপলোড করুন</p>
+          </div>
+        </button>
+        
+        <button id="action-become-donor-btn" class="mobile-action-card donor-card-trigger">
+          <div class="card-icon"><i data-lucide="heart"></i></div>
+          <div class="card-texts">
+            <h3>রক্তদাতা হোন</h3>
+            <p>তালিকায় নিজেকে যুক্ত করুন</p>
+          </div>
+        </button>
+      </div>
+
+      <!-- FILTER CONTROLS BAR -->
+      <div class="filters-bar-container glass-panel">
+        <div class="filter-top-row">
+          <div class="results-toggle-switch">
+            <button class="toggle-switch-btn active" id="view-requests-toggle">রক্তের অনুরোধ</button>
+            <button class="toggle-switch-btn" id="view-donors-toggle">রক্তদাতাদের তালিকা</button>
+          </div>
+          
+          <button id="trigger-simulation-btn" class="sim-pill-btn" title="সিমুলেট করুন">
+            <i data-lucide="bell-ring"></i>
+          </button>
+        </div>
+
+        <!-- Horizontal scrollable Blood Group Selector -->
+        <div class="blood-scroll-selector" id="blood-group-pills">
+          <button class="blood-pill active" data-group="ALL">সব</button>
+          <button class="blood-pill" data-group="A+">A+</button>
+          <button class="blood-pill" data-group="A-">A-</button>
+          <button class="blood-pill" data-group="B+">B+</button>
+          <button class="blood-pill" data-group="B-">B-</button>
+          <button class="blood-pill" data-group="O+">O+</button>
+          <button class="blood-pill" data-group="O-">O-</button>
+          <button class="blood-pill" data-group="AB+">AB+</button>
+          <button class="blood-pill" data-group="AB-">AB-</button>
+        </div>
+      </div>
+
+      <!-- Feed list header -->
+      <div class="feed-header-row">
+        <span class="feed-title" id="feed-title-txt">সক্রিয় রক্তের অনুরোধসমূহ</span>
+        <span class="feed-count-badge" id="feed-count-badge-val">0</span>
+      </div>
+
+      <!-- HYPER-MINIMAL FEED LIST -->
+      <div class="mobile-feed-list" id="mobile-feed-container">
+        <!-- Injected dynamically by JS -->
+      </div>
+
+    </main>
+
+    <!-- ==========================================
+         BOTTOM SHEETS (DRAWERS) & OVERLAYS
+         ========================================== -->
+
+    <!-- Backdrop for all sheets -->
+    <div id="drawer-backdrop" class="drawer-backdrop"></div>
+
+    <!-- 1. LOCATION SELECTOR BOTTOM SHEET -->
+    <div id="location-drawer" class="bottom-sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-header">
+        <h3>আপনার অবস্থান নির্বাচন করুন</h3>
+        <p>আপনার উপজেলা সিলেক্ট করলে আপনার এলাকার রক্তের অনুরোধগুলো ফিডে সবার উপরে থাকবে।</p>
+      </div>
+      <div class="sheet-body">
+        <div class="form-field">
+          <label for="user-district-select">জেলা (District):</label>
+          <select id="user-district-select" class="sheet-select">
+            <!-- Populated dynamically -->
+          </select>
+        </div>
+        <div class="form-field mt-3">
+          <label for="user-upazila-select">উপজেলা (Upazila):</label>
+          <select id="user-upazila-select" class="sheet-select" disabled>
+            <option value="" disabled selected>প্রথমে জেলা সিলেক্ট করুন</option>
+          </select>
+        </div>
+        <button id="save-location-btn" class="sheet-submit-btn mt-4">অবস্থান সংরক্ষণ করুন</button>
+      </div>
+    </div>
+
+    <!-- 2. POST REQUEST BOTTOM SHEET -->
+    <div id="post-drawer" class="bottom-sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-header">
+        <h3>রক্তের জন্য পোস্ট আপলোড করুন</h3>
+        <p>জরুরি রক্তের প্রয়োজনে নিচের বিবরণগুলো দিন</p>
+      </div>
+      <form id="post-request-form" class="sheet-body">
+        <div class="form-field">
+          <label for="post-patient-name">রোগীর নাম (Patient Name): *</label>
+          <input type="text" id="post-patient-name" required placeholder="উদাঃ রফিকুল ইসলাম">
+        </div>
+        <div class="form-row mt-3">
+          <div class="form-field half">
+            <label for="post-blood-group">রক্তের গ্রুপ: *</label>
+            <select id="post-blood-group" required class="sheet-select">
+              <option value="" disabled selected>গ্রুপ</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </select>
+          </div>
+          <div class="form-field half">
+            <label for="post-blood-units">পরিমাণ (ব্যাগ/ইউনিট): *</label>
+            <input type="number" id="post-blood-units" min="1" max="10" value="1" required>
+          </div>
+        </div>
+        <div class="form-field mt-3">
+          <label for="post-need-date">কবে প্রয়োজন? *</label>
+          <input type="date" id="post-need-date" required>
+        </div>
+        <div class="form-row mt-3">
+          <div class="form-field half">
+            <label for="post-district">জেলা: *</label>
+            <select id="post-district" required class="sheet-select">
+              <option value="" disabled selected>জেলা</option>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div class="form-field half">
+            <label for="post-upazila">উপজেলা: *</label>
+            <select id="post-upazila" required class="sheet-select" disabled>
+              <option value="" disabled selected>প্রথমে জেলা</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field mt-3">
+          <label for="post-hospital">হাসপাতাল ও ঠিকানা: *</label>
+          <input type="text" id="post-hospital" required placeholder="উদাঃ ল্যাবএইড, মিরপুর-১০">
+        </div>
+        <div class="form-field mt-3">
+          <label for="post-contact">মোবাইল নাম্বার: *</label>
+          <input type="tel" id="post-contact" required placeholder="উদাঃ 017xxxxxxxx" pattern="^01[3-9]\d{8}$">
+        </div>
+        <div class="form-field mt-3">
+          <label for="post-reason">কারণ / রোগ (ঐচ্ছিক):</label>
+          <input type="text" id="post-reason" placeholder="উদাঃ থ্যালাসেমিয়া / ডেলিভারি">
+        </div>
+        <button type="submit" class="sheet-submit-btn mt-4">পোস্ট সম্পূর্ণ করুন</button>
+      </form>
+    </div>
+
+    <!-- 3. BECOME DONOR BOTTOM SHEET -->
+    <div id="donor-drawer" class="bottom-sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-header">
+        <h3>রক্তদাতা হিসেবে যুক্ত হোন</h3>
+        <p>রক্তদানের জন্য নিজেকে তালিকাভুক্ত করুন</p>
+      </div>
+      <form id="donor-reg-form" class="sheet-body">
+        <div class="form-field">
+          <label for="reg-name">আপনার নাম: *</label>
+          <input type="text" id="reg-name" required placeholder="উদাঃ সাজিদ হাসান">
+        </div>
+        <div class="form-row mt-3">
+          <div class="form-field half">
+            <label for="reg-blood-group">রক্তের গ্রুপ: *</label>
+            <select id="reg-blood-group" required class="sheet-select">
+              <option value="" disabled selected>গ্রুপ</option>
+              <option value="A+">A+</option>
+              <option value="A-">A-</option>
+              <option value="B+">B+</option>
+              <option value="B-">B-</option>
+              <option value="O+">O+</option>
+              <option value="O-">O-</option>
+              <option value="AB+">AB+</option>
+              <option value="AB-">AB-</option>
+            </select>
+          </div>
+          <div class="form-field half">
+            <label for="reg-contact">মোবাইল নাম্বার: *</label>
+            <input type="tel" id="reg-contact" required placeholder="উদাঃ 018xxxxxxxx" pattern="^01[3-9]\d{8}$">
+          </div>
+        </div>
+        <div class="form-row mt-3">
+          <div class="form-field half">
+            <label for="reg-district">জেলা: *</label>
+            <select id="reg-district" required class="sheet-select">
+              <option value="" disabled selected>জেলা</option>
+              <!-- Populated dynamically -->
+            </select>
+          </div>
+          <div class="form-field half">
+            <label for="reg-upazila">উপজেলা: *</label>
+            <select id="reg-upazila" required class="sheet-select" disabled>
+              <option value="" disabled selected>প্রথমে জেলা</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-field mt-3">
+          <label for="reg-last-donate">সর্বশেষ রক্তদানের তারিখ (যদি থাকে):</label>
+          <input type="date" id="reg-last-donate">
+        </div>
+        <div class="form-field mt-3">
+          <label class="switch-container">
+            <input type="checkbox" id="reg-available" checked>
+            <span class="slider-switch"></span>
+            <span class="switch-label">আমি এখন রক্তদানে প্রস্তুত (সক্রিয়) আছি</span>
+          </label>
+        </div>
+        <button type="submit" class="sheet-submit-btn mt-4">ডোনার হিসেবে যুক্ত হোন</button>
+      </form>
+    </div>
+
+    <!-- 4. CONTACT CALL DIALOG SHEET -->
+    <div id="contact-drawer" class="bottom-sheet">
+      <div class="drag-handle"></div>
+      <div class="sheet-body text-center py-4">
+        <div class="call-large-icon animate-pulse">📞</div>
+        <h3 id="contact-name-txt">যোগাযোগ করুন</h3>
+        <p id="contact-sub-txt">সরাসরি কথা বলতে নিচের নম্বরে কল করুন</p>
+        
+        <div class="mobile-phone-number-box" id="contact-phone-display">
+          01700-000000
+        </div>
+        
+        <div class="mt-4">
+          <a href="tel:01700000000" id="contact-tel-link" class="sheet-submit-btn display-block text-center decoration-none">
+            <i data-lucide="phone-call" style="vertical-align:middle; margin-right:4px;"></i> সরাসরি কল করুন
+          </a>
+          <button id="close-contact-drawer-btn" class="sheet-cancel-btn mt-2">বাতিল</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>

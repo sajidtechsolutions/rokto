@@ -1,0 +1,902 @@
+/* ==========================================================================
+   BANGLADESH GEOGRAPHY DATASET (জেলা ও উপজেলা সমূহ)
+   ========================================================================== */
+const BD_GEOGRAPHY = {
+  "ঢাকা": ["মিরপুর", "ধানমন্ডি", "গুলশান", "উত্তরা", "সাভার", "ধামরাই", "কেরানীগঞ্জ", "দোহার", "নবাবগঞ্জ", "খিলগাঁও", "মতিঝিল", "তেজগাঁও"],
+  "চট্টগ্রাম": ["কোতোয়ালী", "হালিশহর", "পাঁচলাইশ", "ডবলমুরিং", "হাটহাজারী", "সীতাকুণ্ড", "মীরসরাই", "পটিয়া", "বোয়ালখালী", "আনোয়ারা", "চন্দনাইশ", "সন্দ্বীপ"],
+  "সিলেট": ["সিলেট সদর", "বিয়ানীবাজার", "গোলাপগঞ্জ", "বালাগঞ্জ", "ফেঞ্চুগঞ্জ", "জকিগঞ্জ", "কানাইঘাট", "জৈন্তাপুর", "গোয়াইনঘাট", "কোম্পানীগঞ্জ"],
+  "রাজশাহী": ["বোয়ালিয়া", "রাজপাড়া", "মতিহার", "শাহ মখদুম", "পবা", "গোদাগাড়ী", "তানোর", "বাঘা", "চারঘাট", "দুর্গাপুর", "পুঠিয়া"],
+  "খুলনা": ["খুলনা সদর", "সোনাডাঙ্গা", "খালিশপুর", "দৌলতপুর", "রূপসা", "ডুমুরিয়া", "ফুলতলা", "বটিয়াঘাটা", "তেরখাদা", "দিঘলিয়া"],
+  "বরিশাল": ["বরিশাল সদর", "বাবুগঞ্জ", "বাকেরগঞ্জ", "বানারীপাড়া", "গৌরনদী", "হিজলা", "মেহেন্দিগঞ্জ", "উজিরপুর", "মুলাদী"],
+  "রংপুর": ["রংপুর সদর", "বদরগঞ্জ", "গঙ্গাচড়া", "কাউনিয়া", "মিঠাপুকুর", "পীরগাছা", "পীরগঞ্জ", "তয়রঙ্গপুর", "তারাগঞ্জ"],
+  "ময়মনসিংহ": ["ময়মনসিংহ সদর", "মুক্তাগাছা", "গফরগাঁও", "ত্রিশাল", "ভালুকা", "ঈশ্বরগঞ্জ", "হালুয়াঘাট", "ফুলবাড়ীয়া", "নন্দাইল", "গৌরীপুর"],
+  "কুমিল্লা": ["কুমিল্লা সদর", "লাকসাম", "চৌদ্দগ্রাম", "দেবিদ্বার", "দাউদকান্দি", "বরুড়া", "বুড়িচং", "চান্দিনা", "হোমনা", "মুরাদনগর"],
+  "গাজীপুর": ["গাজীপুর সদর", "কালিয়াকৈর", "কালীগঞ্জ", "কাপাসিয়া", "শ্রীপুর"],
+  "নারায়ণগঞ্জ": ["নারায়ণগঞ্জ সদর", "আড়াইহাজার", "বন্দর", "রূপগঞ্জ", "সোনারগাঁও"],
+  "বগুড়া": ["বগুড়া সদর", "আদমদীঘি", "ধুনট", "দুপচাঁচিয়া", "গাবতলী", "কাহালু", "নন্দীগ্রাম", "সারিয়াকান্দি", "শেরপুর", "শিবগঞ্জ", "শাজাহানপুর"],
+  "দিনাজপুর": ["দিনাজপুর সদর", "বীরগঞ্জ", "কাহারোল", "বোচাগঞ্জ", "বিরল", "চিরিরবন্দর", "পার্বতীপুর", "ফুলবাড়ী", "নবাবগঞ্জ", "বিরামপুর"],
+  "ফেনী": ["ফেনী সদর", "দাগনভূঞা", "ছাগলনাইয়া", "পরশুরাম", "সোনাগাজী", "ফুলগাজী"],
+  "কক্সবাজার": ["কক্সবাজার সদর", "চকোরিয়া", "মহেশখালী", "টেকনাফ", "উখিয়া", "রামু", "কুতুবদিয়া", "পেকুয়া"],
+  "নোয়াখালী": ["নোয়াখালী সদর", "বেগমগঞ্জ", "চাটখিল", "কোম্পানীগঞ্জ", "হাতিয়া", "সেনবাগ", "সোনাইমুড়ী", "সুবর্ণচর", "কবিরহাট"],
+  "টাঙ্গাইল": ["টাঙ্গাইল সদর", "বাসাইল", "ভূঞাপুর", "দেলদুয়ার", "ঘাটাইল", "গোপালপুর", "কালিহাতী", "মধুপুর", "মির্জাপুর", "নাগরপুর", "সখিপুর"],
+  "যশোর": ["যশোর সদর", "অভয়নগর", "বাঘারপাড়া", "চৌগাছা", "ঝিকরগাছা", "কেশবপুর", "মণিরামপুর", "শার্শা"]
+};
+
+/* ==========================================================================
+   INITIAL MOCK DATA (রক্তের অনুরোধ ও ডোনারদের তালিকা)
+   ========================================================================== */
+const initialRequests = [
+  {
+    id: "req-1",
+    patientName: "তানভীর আহমেদ",
+    bloodGroup: "O+",
+    units: 2,
+    needDate: "2026-07-10",
+    district: "ঢাকা",
+    upazila: "মিরপুর",
+    hospital: "মিরপুর হার্ট ফাউন্ডেশন",
+    contact: "01711223344",
+    reason: "হার্ট অপারেশন",
+    urgency: true,
+    createdAt: Date.now() - 3600000 * 2 // 2 hours ago
+  },
+  {
+    id: "req-2",
+    patientName: "সালমা বেগম",
+    bloodGroup: "A+",
+    units: 1,
+    needDate: "2026-07-09",
+    district: "ঢাকা",
+    upazila: "সাভার",
+    hospital: "এনাম মেডিকেল কলেজ",
+    contact: "01822334455",
+    reason: "ডেলিভারি",
+    urgency: true,
+    createdAt: Date.now() - 3600000 * 5 // 5 hours ago
+  },
+  {
+    id: "req-3",
+    patientName: "আবুল কালাম",
+    bloodGroup: "AB-",
+    units: 1,
+    needDate: "2026-07-08",
+    district: "ঢাকা",
+    upazila: "মিরপুর",
+    hospital: "ডেল্টা মেডিকেল কলেজ",
+    contact: "01544556677",
+    reason: "কেমোথেরাপি",
+    urgency: true,
+    createdAt: Date.now() - 3600000 * 1 // 1 hour ago
+  },
+  {
+    id: "req-4",
+    patientName: "নাসরিন আক্তার",
+    bloodGroup: "B+",
+    units: 1,
+    needDate: "2026-07-12",
+    district: "চট্টগ্রাম",
+    upazila: "পাঁচলাইশ",
+    hospital: "চট্টগ্রাম মেডিকেল কলেজ",
+    contact: "01933445566",
+    reason: "থ্যালাসেমিয়া রক্ত পরিবর্তন",
+    urgency: false,
+    createdAt: Date.now() - 3600000 * 12 // 12 hours ago
+  },
+  {
+    id: "req-5",
+    patientName: "রনি শিকদার",
+    bloodGroup: "O-",
+    units: 2,
+    needDate: "2026-07-11",
+    district: "সিলেট",
+    upazila: "সিলেট সদর",
+    hospital: "ওসমানী মেডিকেল কলেজ",
+    contact: "01755667788",
+    reason: "দুর্ঘটনাজনিত অপারেশন",
+    urgency: true,
+    createdAt: Date.now() - 3600000 * 8 // 8 hours ago
+  }
+];
+
+const initialDonors = [
+  {
+    id: "donor-1",
+    name: "সজিবুল ইসলাম",
+    bloodGroup: "B+",
+    district: "ঢাকা",
+    upazila: "মিরপুর",
+    contact: "01700112233",
+    lastDonationDate: "2026-04-10",
+    available: true
+  },
+  {
+    id: "donor-2",
+    name: "আরিফ রহমান",
+    bloodGroup: "A+",
+    district: "ঢাকা",
+    upazila: "মিরপুর",
+    contact: "01800223344",
+    lastDonationDate: "2026-01-15",
+    available: true
+  },
+  {
+    id: "donor-3",
+    name: "কামরুল হাসান",
+    bloodGroup: "O+",
+    district: "ঢাকা",
+    upazila: "সাভার",
+    contact: "01900334455",
+    lastDonationDate: "2025-11-20",
+    available: true
+  },
+  {
+    id: "donor-4",
+    name: "রাসেল মাহমুদ",
+    bloodGroup: "O-",
+    district: "সিলেট",
+    upazila: "সিলেট সদর",
+    contact: "01700556677",
+    lastDonationDate: "2026-05-02",
+    available: true
+  }
+];
+
+const mockNames = ["রহিম উদ্দিন", "মোঃ তারেক", "জেসমিন আক্তার", "সাজিদুর রহমান", "তানজিলা হাসান", "শরিফুল ইসলাম", "মনিরা বেগম"];
+const mockReasons = ["ডেলিভারি", "মেজর সার্জারি", "থ্যালাসেমিয়া", "অপারেশন", "ডায়ালাইসিস"];
+const mockHospitals = ["জেনারেল হাসপাতাল", "আল-শেফা ক্লিনিক", "সিটি হাসপাতাল", "পপুলার মেডিকেল", "ইবনে সিনা"];
+
+/* ==========================================================================
+   APP STATE MANAGEMENT
+   ========================================================================== */
+const state = {
+  currentUserLocation: {
+    district: "ঢাকা",
+    upazila: "মিরপুর"
+  },
+  requests: [],
+  donors: [],
+  filters: {
+    bloodGroup: "ALL"
+  },
+  activeResultsTab: "requests", // 'requests' or 'donors'
+  currentTheme: "dark"
+};
+
+/* ==========================================================================
+   PERSISTENCE HELPERS
+   ========================================================================== */
+function loadState() {
+  const storedLocation = localStorage.getItem("roktotan_user_location");
+  if (storedLocation) {
+    state.currentUserLocation = JSON.parse(storedLocation);
+  }
+  
+  const storedRequests = localStorage.getItem("roktotan_requests");
+  if (storedRequests) {
+    state.requests = JSON.parse(storedRequests);
+  } else {
+    state.requests = [...initialRequests];
+    localStorage.setItem("roktotan_requests", JSON.stringify(state.requests));
+  }
+
+  const storedDonors = localStorage.getItem("roktotan_donors");
+  if (storedDonors) {
+    state.donors = JSON.parse(storedDonors);
+  } else {
+    state.donors = [...initialDonors];
+    localStorage.setItem("roktotan_donors", JSON.stringify(state.donors));
+  }
+  
+  const storedTheme = localStorage.getItem("roktotan_theme");
+  if (storedTheme) {
+    state.currentTheme = storedTheme;
+  }
+}
+
+function saveState() {
+  localStorage.setItem("roktotan_user_location", JSON.stringify(state.currentUserLocation));
+  localStorage.setItem("roktotan_requests", JSON.stringify(state.requests));
+  localStorage.setItem("roktotan_donors", JSON.stringify(state.donors));
+  localStorage.setItem("roktotan_theme", state.currentTheme);
+}
+
+/* ==========================================================================
+   GEOGRAPHY DROPDOWNS CHAINING
+   ========================================================================== */
+function populateDistrictOptions(selectElement) {
+  selectElement.innerHTML = "";
+  const defaultOpt = document.createElement("option");
+  defaultOpt.value = "";
+  defaultOpt.textContent = selectElement.id === "user-district-select" ? "জেলা নির্বাচন করুন" : "জেলা";
+  defaultOpt.disabled = true;
+  defaultOpt.selected = true;
+  selectElement.appendChild(defaultOpt);
+  
+  Object.keys(BD_GEOGRAPHY).sort().forEach(district => {
+    const opt = document.createElement("option");
+    opt.value = district;
+    opt.textContent = district;
+    selectElement.appendChild(opt);
+  });
+}
+
+function populateUpazilas(district, upazilaSelect, defaultText = "উপজেলা") {
+  upazilaSelect.innerHTML = "";
+  const defaultOpt = document.createElement("option");
+  defaultOpt.value = "";
+  defaultOpt.textContent = defaultText;
+  defaultOpt.disabled = true;
+  defaultOpt.selected = true;
+  upazilaSelect.appendChild(defaultOpt);
+  
+  if (district && BD_GEOGRAPHY[district]) {
+    upazilaSelect.disabled = false;
+    BD_GEOGRAPHY[district].sort().forEach(upazila => {
+      const opt = document.createElement("option");
+      opt.value = upazila;
+      opt.textContent = upazila;
+      upazilaSelect.appendChild(opt);
+    });
+  } else {
+    upazilaSelect.disabled = true;
+  }
+}
+
+function setupDropdownChaining() {
+  // Bind Header Location Drawer Chaining
+  const userDist = document.getElementById("user-district-select");
+  const userUpa = document.getElementById("user-upazila-select");
+  userDist.addEventListener("change", () => {
+    populateUpazilas(userDist.value, userUpa, "উপজেলা নির্বাচন করুন");
+  });
+  
+  // Bind Post Request Chaining
+  const postDist = document.getElementById("post-district");
+  const postUpa = document.getElementById("post-upazila");
+  postDist.addEventListener("change", () => {
+    populateUpazilas(postDist.value, postUpa, "উপজেলা");
+  });
+
+  // Bind Donor Registration Chaining
+  const regDist = document.getElementById("reg-district");
+  const regUpa = document.getElementById("reg-upazila");
+  regDist.addEventListener("change", () => {
+    populateUpazilas(regDist.value, regUpa, "উপজেলা");
+  });
+}
+
+/* ==========================================================================
+   DRAWER CONTROL SYSTEM (BOTTOM-SHEETS)
+   ========================================================================== */
+const backdrop = document.getElementById("drawer-backdrop");
+const drawers = document.querySelectorAll(".bottom-sheet");
+
+function openDrawer(drawerId) {
+  closeAllDrawers();
+  const drawer = document.getElementById(drawerId);
+  if (drawer) {
+    backdrop.classList.add("active");
+    drawer.classList.add("open");
+  }
+}
+
+function closeAllDrawers() {
+  drawers.forEach(drawer => drawer.classList.remove("open"));
+  backdrop.classList.remove("active");
+}
+
+function setupDrawerTriggers() {
+  // Opening triggers
+  document.getElementById("location-pill-btn").addEventListener("click", () => {
+    openDrawer("location-drawer");
+    // Pre-fill location fields
+    document.getElementById("user-district-select").value = state.currentUserLocation.district;
+    populateUpazilas(state.currentUserLocation.district, document.getElementById("user-upazila-select"), "উপজেলা নির্বাচন করুন");
+    document.getElementById("user-upazila-select").value = state.currentUserLocation.upazila;
+  });
+  
+  document.getElementById("action-post-need-btn").addEventListener("click", () => {
+    openDrawer("post-drawer");
+  });
+  
+  document.getElementById("action-become-donor-btn").addEventListener("click", () => {
+    openDrawer("donor-drawer");
+  });
+
+  // Closing triggers (clicks outside or cancels)
+  backdrop.addEventListener("click", closeAllDrawers);
+  document.getElementById("close-contact-drawer-btn").addEventListener("click", closeAllDrawers);
+  
+  // Swipe down mock drag handles
+  document.querySelectorAll(".drag-handle").forEach(handle => {
+    handle.addEventListener("click", closeAllDrawers);
+  });
+}
+
+/* ==========================================================================
+   LOCATION MATCHING & FEED RENDERING
+   ========================================================================== */
+function getMatchLevel(itemLocation, userLocation) {
+  if (itemLocation.district === userLocation.district && itemLocation.upazila === userLocation.upazila) {
+    return "perfect";
+  } else if (itemLocation.district === userLocation.district) {
+    return "district";
+  }
+  return "none";
+}
+
+function renderFeed() {
+  const container = document.getElementById("mobile-feed-container");
+  container.innerHTML = "";
+  
+  const selectedGroup = state.filters.bloodGroup;
+  
+  if (state.activeResultsTab === "requests") {
+    // 1. FILTER REQUESTS
+    let filtered = state.requests.filter(req => {
+      return selectedGroup === "ALL" || req.bloodGroup === selectedGroup;
+    });
+    
+    // 2. SORT BY PROXIMITY & URGENCY
+    filtered.sort((a, b) => {
+      const matchA = getMatchLevel(a, state.currentUserLocation);
+      const matchB = getMatchLevel(b, state.currentUserLocation);
+      const scoreMap = { "perfect": 3, "district": 2, "none": 1 };
+      
+      if (scoreMap[matchA] !== scoreMap[matchB]) {
+        return scoreMap[matchB] - scoreMap[matchA];
+      }
+      if (a.urgency !== b.urgency) {
+        return b.urgency ? 1 : -1;
+      }
+      return b.createdAt - a.createdAt;
+    });
+    
+    // Update count badge
+    document.getElementById("feed-count-badge-val").textContent = toBengaliNumber(filtered.length);
+    document.getElementById("feed-title-txt").textContent = "সক্রিয় রক্তের অনুরোধসমূহ";
+    
+    // 3. RENDER
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="glass-panel p-5 text-center text-muted">কোনো রক্তের অনুরোধ পাওয়া যায়নি।</div>`;
+      return;
+    }
+    
+    filtered.forEach(req => {
+      const match = getMatchLevel(req, state.currentUserLocation);
+      let badgeHtml = "";
+      let glowClass = "";
+      
+      if (match === "perfect") {
+        badgeHtml = `<span class="card-match-badge badge-perfect">একই উপজেলা</span>`;
+        glowClass = "glow-perfect";
+      } else if (match === "district") {
+        badgeHtml = `<span class="card-match-badge badge-district">একই জেলা</span>`;
+        glowClass = "glow-district";
+      } else {
+        badgeHtml = `<span class="card-match-badge badge-other">অন্যান্য</span>`;
+      }
+      
+      const relativeTime = getBengaliRelativeTime(req.createdAt);
+      
+      const card = `
+        <div class="mobile-card glass-panel ${glowClass}">
+          <div class="card-blood-badge">
+            <span class="drop">🩸</span>
+            <span class="group">${req.bloodGroup}</span>
+          </div>
+          <div class="card-main-details">
+            <div class="card-top-header">
+              <span class="card-patient-name">${req.patientName}</span>
+              ${badgeHtml}
+            </div>
+            <p class="card-info-text"><i data-lucide="map-pin" size="12"></i> ${req.upazila}, ${req.district}</p>
+            <p class="card-info-text"><i data-lucide="hospital" size="12"></i> ${req.hospital} • ${req.units} ব্যাগ</p>
+            <p class="card-info-text" style="font-size:0.7rem; opacity:0.6;"><i data-lucide="clock" size="10"></i> ${relativeTime}</p>
+          </div>
+          <div class="card-btn-column">
+            <button class="compact-call-btn" onclick="triggerCallDrawer('${req.patientName}', '${req.contact}')">
+              <i data-lucide="phone"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML("beforeend", card);
+    });
+    
+  } else {
+    // 1. FILTER DONORS
+    let filtered = state.donors.filter(donor => {
+      return (selectedGroup === "ALL" || donor.bloodGroup === selectedGroup) && donor.available;
+    });
+    
+    // 2. SORT BY PROXIMITY
+    filtered.sort((a, b) => {
+      const matchA = getMatchLevel(a, state.currentUserLocation);
+      const matchB = getMatchLevel(b, state.currentUserLocation);
+      const scoreMap = { "perfect": 3, "district": 2, "none": 1 };
+      
+      if (scoreMap[matchA] !== scoreMap[matchB]) {
+        return scoreMap[matchB] - scoreMap[matchA];
+      }
+      return a.name.localeCompare(b.name);
+    });
+    
+    // Update count badge
+    document.getElementById("feed-count-badge-val").textContent = toBengaliNumber(filtered.length);
+    document.getElementById("feed-title-txt").textContent = "উপলব্ধ রক্তদাতাদের তালিকা";
+    
+    // 3. RENDER
+    if (filtered.length === 0) {
+      container.innerHTML = `<div class="glass-panel p-5 text-center text-muted">কোনো এভেইলএবল রক্তদাতা পাওয়া যায়নি।</div>`;
+      return;
+    }
+    
+    filtered.forEach(donor => {
+      const match = getMatchLevel(donor, state.currentUserLocation);
+      let badgeHtml = "";
+      let glowClass = "";
+      
+      if (match === "perfect") {
+        badgeHtml = `<span class="card-match-badge badge-perfect">একই উপজেলা</span>`;
+        glowClass = "glow-perfect";
+      } else if (match === "district") {
+        badgeHtml = `<span class="card-match-badge badge-district">একই জেলা</span>`;
+        glowClass = "glow-district";
+      }
+      
+      const lastDonateText = donor.lastDonationDate 
+        ? getBengaliDonationPeriod(donor.lastDonationDate) + " আগে দান করেছেন"
+        : "দান করার জন্য প্রস্তুত";
+      
+      const card = `
+        <div class="mobile-card glass-panel ${glowClass}">
+          <div class="card-blood-badge" style="border-color: var(--color-green);">
+            <span class="drop" style="filter: hue-rotate(120deg);">🩸</span>
+            <span class="group" style="color: var(--color-green);">${donor.bloodGroup}</span>
+          </div>
+          <div class="card-main-details">
+            <div class="card-top-header">
+              <span class="card-patient-name">${donor.name}</span>
+              ${badgeHtml}
+            </div>
+            <p class="card-info-text"><i data-lucide="map-pin" size="12"></i> ${donor.upazila}, ${donor.district}</p>
+            <p class="card-info-text" style="font-size:0.75rem; color:var(--color-green); font-weight:600;"><i data-lucide="check" size="12"></i> ${lastDonateText}</p>
+          </div>
+          <div class="card-btn-column">
+            <button class="compact-call-btn" style="background: var(--color-green); box-shadow:none;" onclick="triggerCallDrawer('${donor.name} (ডোনার)', '${donor.contact}')">
+              <i data-lucide="phone"></i>
+            </button>
+          </div>
+        </div>
+      `;
+      container.insertAdjacentHTML("beforeend", card);
+    });
+  }
+  
+  lucide.createIcons();
+}
+
+function triggerCallDrawer(name, phone) {
+  document.getElementById("contact-name-txt").textContent = name;
+  const formatted = phone.replace(/(\d{5})(\d{6})/, "$1-$2");
+  document.getElementById("contact-phone-display").textContent = formatted;
+  document.getElementById("contact-tel-link").href = "tel:" + phone;
+  openDrawer("contact-drawer");
+}
+
+/* ==========================================================================
+   FORM SUBMISSIONS
+   ========================================================================== */
+function setupFormSubmissions() {
+  
+  // 1. SAVE USER SIMULATED LOCATION
+  document.getElementById("save-location-btn").addEventListener("click", () => {
+    const dist = document.getElementById("user-district-select").value;
+    const upa = document.getElementById("user-upazila-select").value;
+    
+    if (dist && upa) {
+      state.currentUserLocation.district = dist;
+      state.currentUserLocation.upazila = upa;
+      saveState();
+      
+      // Update UI Header
+      document.getElementById("header-location-txt").textContent = `${upa}, ${dist}`;
+      closeAllDrawers();
+      renderFeed();
+      showSuccessToast("অবস্থান সফলভাবে পরিবর্তন করা হয়েছে!");
+    }
+  });
+  
+  // 2. SUBMIT BLOOD REQUEST
+  const postForm = document.getElementById("post-request-form");
+  postForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    const newReq = {
+      id: "req-" + Date.now(),
+      patientName: document.getElementById("post-patient-name").value,
+      bloodGroup: document.getElementById("post-blood-group").value,
+      units: parseInt(document.getElementById("post-blood-units").value),
+      needDate: document.getElementById("post-need-date").value,
+      district: document.getElementById("post-district").value,
+      upazila: document.getElementById("post-upazila").value,
+      hospital: document.getElementById("post-hospital").value,
+      contact: document.getElementById("post-contact").value,
+      reason: document.getElementById("post-reason").value,
+      urgency: true,
+      createdAt: Date.now()
+    };
+    
+    state.requests.unshift(newReq);
+    saveState();
+    
+    confetti({
+      particleCount: 50,
+      spread: 40,
+      origin: { y: 0.8 },
+      colors: ['#e53935', '#ffffff']
+    });
+    
+    closeAllDrawers();
+    postForm.reset();
+    populateUpazilas("", document.getElementById("post-upazila"), "প্রথমে জেলা");
+    
+    // Switch to request toggle view
+    document.getElementById("view-requests-toggle").click();
+    // Pre-apply blood group filter to newly created request for immediate check
+    state.filters.bloodGroup = newReq.bloodGroup;
+    updateFilterGroupUI();
+    renderFeed();
+    showSuccessToast("আপনার রক্তের অনুরোধটি পোস্ট করা হয়েছে!");
+  });
+  
+  // 3. REGISTER AS A DONOR
+  const regForm = document.getElementById("donor-reg-form");
+  regForm.addEventListener("submit", (e) => {
+    e.preventDefault();
+    
+    const newDonor = {
+      id: "donor-" + Date.now(),
+      name: document.getElementById("reg-name").value,
+      bloodGroup: document.getElementById("reg-blood-group").value,
+      district: document.getElementById("reg-district").value,
+      upazila: document.getElementById("reg-upazila").value,
+      contact: document.getElementById("reg-contact").value,
+      lastDonationDate: document.getElementById("reg-last-donate").value,
+      available: document.getElementById("reg-available").checked
+    };
+    
+    state.donors.unshift(newDonor);
+    // Auto-update simulated user location too
+    state.currentUserLocation = { district: newDonor.district, upazila: newDonor.upazila };
+    document.getElementById("header-location-txt").textContent = `${newDonor.upazila}, ${newDonor.district}`;
+    saveState();
+    
+    confetti({
+      particleCount: 100,
+      spread: 60,
+      origin: { y: 0.6 },
+      colors: ['#388e3c', '#ffffff']
+    });
+    
+    closeAllDrawers();
+    regForm.reset();
+    populateUpazilas("", document.getElementById("reg-upazila"), "প্রথমে জেলা");
+    
+    // Switch to donors toggle view
+    document.getElementById("view-donors-toggle").click();
+    state.filters.bloodGroup = newDonor.bloodGroup;
+    updateFilterGroupUI();
+    renderFeed();
+    showSuccessToast("তালিকাভুক্ত করার জন্য আপনাকে ধন্যবাদ!");
+  });
+}
+
+function updateFilterGroupUI() {
+  const pills = document.querySelectorAll("#blood-group-pills .blood-pill");
+  pills.forEach(pill => {
+    if (pill.getAttribute("data-group") === state.filters.bloodGroup) {
+      pill.classList.add("active");
+    } else {
+      pill.classList.remove("active");
+    }
+  });
+}
+
+/* ==========================================================================
+   FEED VIEW SWAPPING & FILTER BUTTONS
+   ========================================================================== */
+function setupFeedToggles() {
+  const reqBtn = document.getElementById("view-requests-toggle");
+  const donorBtn = document.getElementById("view-donors-toggle");
+  
+  reqBtn.addEventListener("click", () => {
+    reqBtn.classList.add("active");
+    donorBtn.classList.remove("active");
+    state.activeResultsTab = "requests";
+    renderFeed();
+  });
+  
+  donorBtn.addEventListener("click", () => {
+    donorBtn.classList.add("active");
+    reqBtn.classList.remove("active");
+    state.activeResultsTab = "donors";
+    renderFeed();
+  });
+  
+  // Blood pills selection
+  const pills = document.querySelectorAll("#blood-group-pills .blood-pill");
+  pills.forEach(pill => {
+    pill.addEventListener("click", () => {
+      pills.forEach(p => p.classList.remove("active"));
+      pill.classList.add("active");
+      state.filters.bloodGroup = pill.getAttribute("data-group");
+      renderFeed();
+    });
+  });
+}
+
+/* ==========================================================================
+   MOCK ALERTS AND PERSISTENT TOAST SYSTEM
+   ========================================================================== */
+function triggerSimulatedPost() {
+  const groups = ["A+", "B+", "O+", "AB+", "O-", "A-", "B-"];
+  const randomGroup = groups[Math.floor(Math.random() * groups.length)];
+  
+  const dist = state.currentUserLocation.district;
+  const upazilaList = BD_GEOGRAPHY[dist] || BD_GEOGRAPHY["ঢাকা"];
+  const randomUpazila = upazilaList[Math.floor(Math.random() * upazilaList.length)];
+  
+  const randomName = mockNames[Math.floor(Math.random() * mockNames.length)];
+  const randomHospital = mockHospitals[Math.floor(Math.random() * mockHospitals.length)] + ", " + randomUpazila;
+  
+  const newReq = {
+    id: "sim-" + Date.now(),
+    patientName: randomName,
+    bloodGroup: randomGroup,
+    units: Math.floor(Math.random() * 2) + 1,
+    needDate: new Date(Date.now() + 3600000 * 24).toISOString().split('T')[0],
+    district: dist,
+    upazila: randomUpazila,
+    hospital: randomHospital,
+    contact: "017" + Math.floor(10000000 + Math.random() * 90000000),
+    reason: mockReasons[Math.floor(Math.random() * mockReasons.length)],
+    urgency: true,
+    createdAt: Date.now()
+  };
+  
+  state.requests.unshift(newReq);
+  saveState();
+  renderFeed();
+  
+  // Trigger top notification toast
+  const toast = document.getElementById("global-toast");
+  const textEl = document.getElementById("toast-text");
+  const viewBtn = document.getElementById("toast-view-btn");
+  
+  textEl.textContent = `${randomUpazila} থেকে ${randomGroup} রক্ত প্রয়োজন! (${randomName})`;
+  toast.classList.remove("hidden-element");
+  
+  // Auto-dismiss after 6 seconds
+  const autoDismiss = setTimeout(() => {
+    toast.classList.add("hidden-element");
+  }, 6000);
+  
+  viewBtn.onclick = () => {
+    clearTimeout(autoDismiss);
+    toast.classList.add("hidden-element");
+    
+    // Filter feed immediately
+    document.getElementById("view-requests-toggle").click();
+    state.filters.bloodGroup = randomGroup;
+    updateFilterGroupUI();
+    renderFeed();
+  };
+}
+
+function showSuccessToast(message) {
+  const toast = document.createElement("div");
+  toast.style.position = "fixed";
+  toast.style.bottom = "2rem";
+  toast.style.left = "50%";
+  toast.style.transform = "translateX(-50%)";
+  toast.style.padding = "0.75rem 1.5rem";
+  toast.style.background = "rgba(40, 100, 40, 0.95)";
+  toast.style.border = "1px solid #388e3c";
+  toast.style.color = "#ffffff";
+  toast.style.borderRadius = "8px";
+  toast.style.zIndex = "10000";
+  toast.style.fontWeight = "600";
+  toast.style.fontSize = "0.85rem";
+  toast.style.boxShadow = "0 8px 25px rgba(0,0,0,0.5)";
+  toast.style.animation = "slideDown 0.3s reverse forwards";
+  
+  toast.innerHTML = `<span style="margin-right:0.4rem;">✓</span> ${message}`;
+  document.body.appendChild(toast);
+  
+  setTimeout(() => {
+    toast.style.animation = "fadeIn 0.3s reverse forwards";
+    setTimeout(() => { toast.remove(); }, 300);
+  }, 2500);
+}
+
+/* ==========================================================================
+   THEME TOGGLER (ডার্ক/লাইট মোড)
+   ========================================================================== */
+function setupThemeToggler() {
+  const themeBtn = document.getElementById("theme-toggle-btn");
+  const themeIcon = document.getElementById("theme-icon");
+  
+  if (state.currentTheme === "light") {
+    document.body.classList.remove("dark-theme");
+    document.body.classList.add("light-theme");
+    themeIcon.setAttribute("data-lucide", "moon");
+  } else {
+    document.body.classList.remove("light-theme");
+    document.body.classList.add("dark-theme");
+    themeIcon.setAttribute("data-lucide", "sun");
+  }
+  lucide.createIcons();
+  
+  themeBtn.addEventListener("click", () => {
+    if (document.body.classList.contains("dark-theme")) {
+      document.body.classList.remove("dark-theme");
+      document.body.classList.add("light-theme");
+      themeIcon.setAttribute("data-lucide", "moon");
+      state.currentTheme = "light";
+    } else {
+      document.body.classList.remove("light-theme");
+      document.body.classList.add("dark-theme");
+      themeIcon.setAttribute("data-lucide", "sun");
+      state.currentTheme = "dark";
+    }
+    saveState();
+    lucide.createIcons();
+  });
+}
+
+/* ==========================================================================
+   BENGALI CONVERTERS
+   ========================================================================== */
+function getBengaliRelativeTime(timestamp) {
+  const diffMs = Date.now() - timestamp;
+  const diffMins = Math.floor(diffMs / 60000);
+  const diffHours = Math.floor(diffMins / 60);
+  const diffDays = Math.floor(diffHours / 24);
+  
+  if (diffMins < 1) return "এইমাত্র";
+  if (diffMins < 60) return toBengaliNumber(diffMins) + " মিনিট আগে";
+  if (diffHours < 24) return toBengaliNumber(diffHours) + " ঘণ্টা আগে";
+  return toBengaliNumber(diffDays) + " দিন আগে";
+}
+
+function getBengaliDonationPeriod(dateString) {
+  const lastDate = new Date(dateString);
+  const diffMs = Date.now() - lastDate.getTime();
+  const diffMonths = Math.floor(diffMs / (1000 * 60 * 60 * 24 * 30));
+  
+  if (diffMonths < 1) {
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    return toBengaliNumber(diffDays) + " দিন";
+  }
+  if (diffMonths < 12) {
+    return toBengaliNumber(diffMonths) + " মাস";
+  }
+  const diffYears = Math.floor(diffMonths / 12);
+  return toBengaliNumber(diffYears) + " বছর";
+}
+
+function toBengaliNumber(number) {
+  const enNumbers = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
+  const bnNumbers = ["০", "১", "২", "৩", "৪", "৫", "৬", "৭", "৮", "৯"];
+  
+  return number.toString().split("").map(char => {
+    const idx = enNumbers.indexOf(char);
+    return idx !== -1 ? bnNumbers[idx] : char;
+  }).join("");
+}
+
+/* ==========================================================================
+   AMBIENT BLOOD DROP CANVAS PARTICLES
+   ========================================================================== */
+function initParticlesBackground() {
+  const canvas = document.getElementById("particles-canvas");
+  const ctx = canvas.getContext("2d");
+  
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+  
+  window.addEventListener("resize", () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  });
+  
+  const particles = [];
+  const maxParticles = 20;
+  
+  class Particle {
+    constructor() {
+      this.reset();
+    }
+    
+    reset() {
+      this.x = Math.random() * width;
+      this.y = height + Math.random() * 50;
+      this.size = Math.random() * 3 + 1.5;
+      this.speedY = -(Math.random() * 0.8 + 0.3);
+      this.speedX = Math.random() * 0.2 - 0.1;
+      this.opacity = Math.random() * 0.2 + 0.05;
+    }
+    
+    update() {
+      this.y += this.speedY;
+      this.x += this.speedX;
+      if (this.y < -50) this.reset();
+    }
+    
+    draw() {
+      ctx.beginPath();
+      ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(229, 57, 53, ${this.opacity})`;
+      ctx.fill();
+    }
+  }
+  
+  for (let i = 0; i < maxParticles; i++) {
+    const p = new Particle();
+    p.y = Math.random() * height;
+    particles.push(p);
+  }
+  
+  function animate() {
+    ctx.clearRect(0, 0, width, height);
+    particles.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    requestAnimationFrame(animate);
+  }
+  
+  animate();
+}
+
+/* ==========================================================================
+   APP INITIALIZATION
+   ========================================================================== */
+window.addEventListener("DOMContentLoaded", () => {
+  loadState();
+  
+  // Populate dropdown lists
+  populateDistrictOptions(document.getElementById("user-district-select"));
+  populateDistrictOptions(document.getElementById("post-district"));
+  populateDistrictOptions(document.getElementById("reg-district"));
+  
+  // Set header text location
+  document.getElementById("header-location-txt").textContent = 
+    `${state.currentUserLocation.upazila}, ${state.currentUserLocation.district}`;
+  
+  // Bind events
+  setupDropdownChaining();
+  setupDrawerTriggers();
+  setupFormSubmissions();
+  setupFeedToggles();
+  setupThemeToggler();
+  initParticlesBackground();
+  
+  // Render active feed
+  renderFeed();
+  
+  // Mock alerts trigger
+  document.getElementById("trigger-simulation-btn").addEventListener("click", () => {
+    triggerSimulatedPost();
+    confetti({
+      particleCount: 20,
+      spread: 30,
+      origin: { y: 0.9 },
+      colors: ['#e53935']
+    });
+  });
+  
+  lucide.createIcons();
+});
